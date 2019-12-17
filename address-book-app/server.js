@@ -16,7 +16,6 @@ const axios = require('axios'); // Used to make http requests
 const fs = require('fs'); // built-in - used to interact with the filesystem
 const path = require('path'); // built-in - used to format paths easier
 const os = require('os'); // built-in - used to interact with the OS
-const process = require('process');
 const seq = require('seq-logging');
 var logger = new seq.Logger({ serverUrl: 'http://localhost:5341' });
 
