@@ -25,13 +25,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(function (req, res, next) {
+  var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
   logger.emit({
     timestamp: new Date(),
     level: 'Information',
     messageTemplate: 'Hello for the {n}th time, {user}!',
     properties: {
       user: "username",
-      n: 20
+      n: 20,
+      ip
     }
   });
   next()
