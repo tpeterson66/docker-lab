@@ -1,18 +1,22 @@
 {
   "name": "addressbook",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a simple address book app",
   "main": "index.js",
   "scripts": {
     "nodemon": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "start.dev": "nodemon"
   },
-  "author": "",
+  "author": "Rick James",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.1"
   }
 }

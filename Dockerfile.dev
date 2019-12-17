@@ -5,4 +5,4 @@ RUN npm install
 RUN apk update && apk add nodejs && npm i -g nodemon
 EXPOSE 4000
 EXPOSE 8080
-CMD [ "nodemon", "server.js" ]
+CMD [ "npm", "run", "start.dev" ]
