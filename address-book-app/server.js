@@ -34,8 +34,6 @@ app.use(function (req, res, next) {
       n: 20
     }
   });
-
-  logger.close();
   next()
 })
 
