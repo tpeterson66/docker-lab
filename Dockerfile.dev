@@ -1,6 +1,6 @@
 FROM node:10
 WORKDIR /usr/src/app
-COPY ./address-book-app/* .
+COPY ./address-book-app .
 RUN npm install
 RUN apk update && apk add nodejs && npm i -g nodemon
 
