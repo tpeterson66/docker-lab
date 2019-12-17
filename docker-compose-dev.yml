@@ -23,7 +23,7 @@ services:
     container_name: 'mongodb'
     enviroment:
       - MONGO_INITDB_DATABASE=address-book
-      - MONGO_INITDB_ROOT_USERNMAE=autobooks
+      - MONGO_INITDB_ROOT_USERNAME=autobooks
       - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
       - ./volumes/mongodb:/data/db
@@ -36,7 +36,7 @@ services:
     image: 'datalust/seq'
     container_name: dev-seq
     volumes:
-      -./volumes/seq:/data
+      - ./volumes/seq:/data
     ports:
       - 80:80
       - 5341:5341
@@ -46,6 +46,6 @@ services:
       - dev-network
 
 networks:
-  dev-networks:
+  dev-network:
     
     
