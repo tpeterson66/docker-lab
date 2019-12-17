@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+  nodeapp:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    networks:
+      - dev-network
+    container_name: app
+    environment:
+      - PORT=8080
+      - ENV="DEV"
+      - TOKEN="abc123"
+    volumes:
+      - ./address-book-app:/usr/src/app
+      - /usr/src/app/node_modules
+  
+  database:
+    image: 'mongo'
+    container_name: 'mongodb'
+    enviroment:
+      - MONGO_INITDB_DATABASE=address-book
+      - MONGO_INITDB_ROOT_USERNMAE=autobooks
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - ./volumes/mongodb:/data/db
+    ports:
+      - '27017-27019:27017-27019'
+    networks:
+      - dev-network
+  
+  logging:
+    image: 'datalust/seq'
+    container_name: dev-seq
+    volumes:
+      -./volumes/seq:/data
+    ports:
+      - 80:80
+      - 5341:5341
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - dev-network
+
+networks:
+  dev-networks:
+    
+    
