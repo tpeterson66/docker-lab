@@ -16,17 +16,35 @@ const axios = require('axios'); // Used to make http requests
 const fs = require('fs'); // built-in - used to interact with the filesystem
 const path = require('path'); // built-in - used to format paths easier
 const os = require('os'); // built-in - used to interact with the OS
+const process = require('process');
+const seq = require('seq-logging');
+var logger = new seq.Logger({ serverUrl: 'http://localhost:5341' });
 
 // Configure express
 const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.use(function (req, res, next) {
+  logger.emit({
+    timestamp: new Date(),
+    level: 'Information',
+    messageTemplate: 'Hello for the {n}th time, {user}!',
+    properties: {
+      user: "username",
+      n: 20
+    }
+  });
+
+  logger.close();
+  next()
+})
+
 // Homepage
 app.get('/', (req, res) => {
   var clientIP = req.connection.remoteAddress
   var sample = JSON.parse(fs.readFileSync('address-book.json'));
-  res.render('pages/index', {sample,env,clientIP})
+  res.render('pages/index', { sample, env, clientIP })
 });
 
 // API to pull fresh data
@@ -38,7 +56,7 @@ app.get('/api/fresh', async (req, res) => {
       email: "internetEmail",
       phone: "phoneHome",
       _repeat: 10 // will only render 10 at a time!
-     }
+    }
   }
 
   try {
