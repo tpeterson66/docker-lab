@@ -1,8 +1,8 @@
-FROM node:10
+FROM node-alpine
 WORKDIR /usr/src/app
 COPY ./address-book-app .
 RUN npm install
 RUN apk update && apk add nodejs && npm i -g nodemon
-
+EXPOSE 4000
 EXPOSE 8080
 CMD [ "nodemon", "server.js" ]
