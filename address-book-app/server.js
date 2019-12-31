@@ -4,12 +4,11 @@ Language:                   NodeJS
 Download Location:          https://github.com/tpeterson66/portable
 */
 
-require('dotenv').config()
+require('dotenv').config();
 // Required in .env file, app will not run correctly without the .env file...
-var env = process.env.ENV || "env not set!"
-var port = process.env.PORT || 3000
+var env = process.env.ENV || 'docker default!';
+var port = process.env.PORT || 3000;
 var token = process.env.TOKEN
-
 // Imported NPM packages, must run NPM install before running the app
 const express = require('express'); // NodeJS web server middleware
 const axios = require('axios'); // Used to make http requests
@@ -44,31 +43,6 @@ app.get('/', (req, res) => {
   var clientIP = req.connection.remoteAddress
   var sample = JSON.parse(fs.readFileSync('address-book.json'));
   res.render('pages/index', { sample, env, clientIP })
-});
-
-// Fresh Home Page -- Pulling data from API
-app.get('/fresh', (req, res) => {
-  let payload = {
-    token,
-    data: {
-      name: "nameFirst",
-      email: "internetEmail",
-      phone: "phoneHome",
-      _repeat: 10 // will only render 10 at a time!
-    }
-  }
-
-  try {
-    const response = await axios({
-      method: "post",
-      url: "https://app.fakejson.com/q",
-      data: payload
-    });
-    res.send(response.data)
-  } catch (err) {
-    res.send(err)
-  }
-  res.render('pages/index', { sample: response, env, clientIP })
 });
 
 // API to pull fresh data
