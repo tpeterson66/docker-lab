@@ -4,20 +4,16 @@ services:
   nodeapp:
     build:
       context: ./
-      dockerfile: ../Dockerfile.dev
+      dockerfile: Dockerfile
     ports:
-      - "4000:4000"
-      - "8080:8080"
+      - "80:80"
     networks:
       - dev-network
     container_name: app
     environment:
-      - PORT=8080
+      - PORT=80
       - ENV="DEV"
-      - TOKEN="abc123"
-    volumes:
-      - ./address-book-app:/usr/src/app
-      - /usr/src/app/node_modules
+      - TOKEN="hwe6b3uEdpO6DuiytJXNfg"
   
   database:
     image: 'mongo'
@@ -48,5 +44,3 @@ services:
 
 networks:
   dev-network:
-    
-    
