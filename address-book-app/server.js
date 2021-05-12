@@ -1,22 +1,22 @@
 /*
 Title:                      Simple Address Book
 Language:                   NodeJS
-Download Location:          https://github.com/tpeterson66/portable
+Download Location:          https://github.com/tpeterson66/docker-lab
 */
 
 require('dotenv').config();
 // Required in .env file, app will not run correctly without the .env file...
 var env = process.env.ENV || 'docker default!';
 var port = process.env.PORT || 3000;
-var token = process.env.TOKEN
+// var token = process.env.TOKEN
 // Imported NPM packages, must run NPM install before running the app
 const express = require('express'); // NodeJS web server middleware
 const axios = require('axios'); // Used to make http requests
 const fs = require('fs'); // built-in - used to interact with the filesystem
 const path = require('path'); // built-in - used to format paths easier
 const os = require('os'); // built-in - used to interact with the OS
-const seq = require('seq-logging');
-var logger = new seq.Logger({ serverUrl: 'http://dev-seq:5341' });
+// const seq = require('seq-logging');
+// var logger = new seq.Logger({ serverUrl: 'http://dev-seq:5341' });
 
 // Configure express
 const app = express();
@@ -25,16 +25,17 @@ app.set('view engine', 'ejs');
 
 app.use(function (req, res, next) {
   var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-  logger.emit({
-    timestamp: new Date(),
-    level: 'Information',
-    messageTemplate: 'Hello for the {n}th time, {user}!',
-    properties: {
-      user: "username",
-      n: 20,
-      ip
-    }
-  });
+  console.log(Date() + "New connection from: " + ip )
+  // logger.emit({
+  //   timestamp: new Date(),
+  //   level: 'Information',
+  //   messageTemplate: 'Hello for the {n}th time, {user}!',
+  //   properties: {
+  //     user: "username",
+  //     n: 20,
+  //     ip
+  //   }
+  // });
   next()
 });
 
@@ -43,30 +44,6 @@ app.get('/', (req, res) => {
   var clientIP = req.connection.remoteAddress
   var sample = JSON.parse(fs.readFileSync('address-book.json'));
   res.render('pages/index', { sample, env, clientIP })
-});
-
-// API to pull fresh data
-app.get('/api/fresh', async (req, res) => {
-  let payload = {
-    token,
-    data: {
-      name: "nameFirst",
-      email: "internetEmail",
-      phone: "phoneHome",
-      _repeat: 10 // will only render 10 at a time!
-    }
-  }
-
-  try {
-    const response = await axios({
-      method: "post",
-      url: "https://app.fakejson.com/q",
-      data: payload
-    });
-    res.send(response.data)
-  } catch (err) {
-    res.send(err)
-  }
 });
 
 // API call to return the stored file, used to make a bunch of requests to the api
